@@ -5,8 +5,26 @@ import NavBar from "./components/NavBar";
 // Extend the Window type so TypeScript knows about ShopifyBuy
 declare global {
   interface Window {
-    ShopifyBuy?: any;
+    ShopifyBuy?: {
+      buildClient: (config: { domain: string; storefrontAccessToken: string }) => unknown;
+      UI: {
+        onReady: (client: unknown) => Promise<ShopifyUI>;
+      };
+    };
   }
+}
+
+// Minimal Shopify UI interface so we can type createComponent
+interface ShopifyUI {
+  createComponent: (
+    type: string,
+    options: {
+      id: string;
+      node: HTMLElement | null;
+      moneyFormat?: string;
+      options?: Record<string, unknown>;
+    }
+  ) => void;
 }
 
 const products = [
@@ -25,7 +43,8 @@ export default function Home() {
 
     if (!window.ShopifyBuy) {
       const script = document.createElement("script");
-      script.src = "https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js";
+      script.src =
+        "https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js";
       script.async = true;
       script.onload = initShopifyBuyButtons;
       document.body.appendChild(script);
@@ -41,7 +60,7 @@ export default function Home() {
         storefrontAccessToken: "d77f2db354e1b9f37cbf963f5c528065",
       });
 
-      window.ShopifyBuy.UI.onReady(client).then((ui: any) => {
+      window.ShopifyBuy.UI.onReady(client).then((ui) => {
         products.forEach((product) => {
           const node = document.getElementById(product.divId);
           if (node) node.innerHTML = ""; // clear old content
