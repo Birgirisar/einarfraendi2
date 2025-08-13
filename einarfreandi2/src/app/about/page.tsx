@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import NavBar from "../components/NavBar";
+import Link from "next/link";
 
 export default function About() {
   return (
@@ -46,9 +47,9 @@ export default function About() {
 
           {/* Call to action */}
           <div className="mt-16 text-center">
-            <a href="/" className="btn btn-primary btn-lg">
+            <Link href="/" className="btn btn-primary btn-lg">
               View My Art
-            </a>
+            </Link>
           </div>
         </div>
       </main>
