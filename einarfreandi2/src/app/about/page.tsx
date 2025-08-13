@@ -46,7 +46,7 @@ export default function About() {
 
           {/* Call to action */}
           <div className="mt-16 text-center">
-            <a href="/shop" className="btn btn-primary btn-lg">
+            <a href="/" className="btn btn-primary btn-lg">
               View My Art
             </a>
           </div>
